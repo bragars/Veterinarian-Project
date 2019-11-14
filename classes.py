@@ -1,10 +1,5 @@
-class animal:
-    def __init__(self, especie, linhagem, sexo, nascimento):
-        self.especie = especie
-        self.linhagem = linhagem
-        self.sexo = sexo
-        self.nascimento = nascimento
-
+# TO-DO: MOVER CADA CLASSE PARA UM ARQUIVO DE CLASSE SEPARADO
+# A classe Animal já foi movida
 class aluno:
     def __init__(self, nome, vinculo_Institucional, email, telefone):
         self.nome = nome
