@@ -1,37 +1,71 @@
-
-body, html {
-  margin: 0;
-  font-family: sans-serif;
-}
-
-.content {
-  margin: 0 auto;
-  width: 400px;
-}
-
-table, td, th {
-  border: 1px solid #aaa;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th {
-  height: 30px;
+h1{
+  margin-top: 0px;
+  font-size:60px;
+  background-color: #359DB0;
+  color: rgb(250,255,250);
+  font-family: "Arial", "sans-serif";
   text-align: center;
+  padding: 35px;
+  text-transform: uppercase;
+  border-width: 5px;
+  border-style: outset;
 }
 
-td {
-  text-align: center;
-  padding: 5px;
+a{
+    text-align: left;
+    font-size:15px;
+    border-width: 5px;
 }
 
-.form {
-  margin-top: 20px;
+div{
+    padding: 35px;
+    text-align: center;
+    line-height: 23px;
 }
 
-#content {
-  width: 70%;
+p{
+    line-height: 45px;
+    font-size: 30px; 
+}
+
+aside{
+    border-width: 10px;
+    border-style: outset;
+}
+
+ul {
+    margin: 0;
+    padding:5px;
+    list-style-position: inside;
+    list-style-image: none;
+    list-style-type: none;
+}
+
+li {
+    float:right;
+    display:block;
+    list-style-position: inside;
+    list-style-image: none;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+li a{
+    margin: 0px;
+    color:#000000;
+    display:block;
+    text-decoration: none;
+    width: 150px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+
+.gerencia{
+    text-align:left;
+    padding:15px
 }

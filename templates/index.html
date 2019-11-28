@@ -7,36 +7,32 @@
 {% block body %}
 <div class="content">
     <h1 style="text-align: center">Lab CIEX</h1>
-    {% if tasks|length < 1 %}
-    <h4 style="text-align: center">There are no tasks. Create one below!</h4>
-    {% else %}
-    <table>
-        <tr>
-            <th>Task</th>
-            <th>Added</th>
-            <th>Actions</th>
-        </tr>
-        {% for task in tasks %}
-            <tr>
-                <td>{{ task.content }}</td>
-                <td>{{ task.date_created.date() }}</td>
-                <td>
-                    <a href="/delete/{{task.id}}">Delete</a>
-                    <br>
-                    <a href="/update/{{task.id}}">Update</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
 
     <div class="form">
-        <form action="/" method="POST">
-            <input type="text" name="content" id="content">
-            <input type="submit" value="Cadastre os animais">
+        <form method="POST" action="/post_animal">
+            <input type="text" name="animal" id="animal" />
+            <br>
+            <input type="submit" value="Cadastre os animais" />
         </form>
+
+        <form method='POST' action="/post_pesquisador">
+            <input type="text" name="pesquisador" id="pesquisador" />
+            <br>
+            <input type="submit" value="Cadastre o pesquisador" />
+        </form>
+    </div>
+    <br>
     <p style="font-size:30px">Aplicação Web para cadastro, edição, recuperação e geração de relatórios acerca da movimentação de animais de experimentação no Biotério do Laboratório CIEX-UnB</p>
     <p style="font-size:30px">Destinado a melhoria da gestão do controle de animais, pesquisas, pesquisadores e outros colaboradores !</p>
-    </div>
+    <br>
+    <p><a href="{{ url_for('gerenciamento') }}">Gerenciamento </a></p>
+    <aside>
+        <ul class="mainmenu">
+            <li><a href="http://fav.unb.br/"></li><span>FAV - FAV-UnB</span></a>
+            <li><a  href="/institucional-da-fav"></li><span>Institucional da FAV</span></a>
+            <li><a  href="/laboratorios"></li><span>Laboratórios</span></a>
+        </ul>
+    </aside>
 </div>
+
 {% endblock %}

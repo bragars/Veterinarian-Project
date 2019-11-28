@@ -2,7 +2,7 @@ from flask import flask
 from flask_sqlalchemy import SQLALchemy
 
 app.Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'swlite:///relationships.db
+app.config['SQLALCHEMY_DATABASE_URI'] = 'swlite:///relationships.db'
 
 db.SQLAlchemy(app)
 
