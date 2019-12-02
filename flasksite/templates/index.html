@@ -1,0 +1,29 @@
+{% extends 'home.html' %}
+
+{% block head %}
+<title>Home</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Lab CIEX</h1>
+
+    <div class="form">
+    </div>
+    <br>
+    <p style="font-size:30px">Aplicação Web para cadastro, edição, recuperação e geração de relatórios acerca da movimentação de animais de experimentação no Biotério do Laboratório CIEX-UnB</p>
+    <p style="font-size:30px">Destinado a melhoria da gestão do controle de animais, pesquisas, pesquisadores e outros colaboradores !</p>
+    <br>
+    <p><a href="{{ url_for('cadastro') }}">Cadastrar </a></p><!--THE NAME OF FUNCTION NOT THE NAME OF ROUTE-->
+    <p><a href="{{ url_for('pesquisa') }}">Pesquisar </a></p><!--THE NAME OF FUNCTION NOT THE NAME OF ROUTE-->
+    <p><a href="{{ url_for('delete') }}">Deletar </a></p><!--THE NAME OF FUNCTION NOT THE NAME OF ROUTE-->
+    <aside>
+        <ul class="mainmenu">
+            <li><a href="http://fav.unb.br/"></li><span>FAV - FAV-UnB</span></a>
+            <li><a  href="/institucional-da-fav"></li><span>Institucional da FAV</span></a>
+            <li><a  href="/laboratorios"></li><span>Laboratórios</span></a>
+        </ul>
+    </aside>
+</div>
+
+{% endblock %}
