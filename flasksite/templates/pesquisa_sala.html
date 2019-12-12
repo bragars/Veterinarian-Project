@@ -12,22 +12,26 @@
 <div class="content">
     <h1 style="text-align: center">LAB CIEX</h1>
 
-    <h2 class="container-fluid">Cadastro - Sala</h2>
+    <h2 class="container-fluid">Pesquisa - Sala</h2>
 
     <div class="form">
-        <form onsubmit="return validate()" method="POST" action="/post_sala">
-            <label>Número: </label><input type="number" name="numero" id="numero" />
-            <label>Responsável: </label><input type="text" name="nome" id="nome" />
+        <form onsubmit="return validate()" method="POST" action="/pesquisar_sala">
+          <div class="form-group">
+            <label>Numero:</label>
+            <input type="number" class="form-control" name="numero" id="numero">
+          </div>
             <br>
-            <br>
-            <button type="button" class="btn btn-default" onclick='location.href="update"'>Voltar</button>
-            <input class="btn btn-success" type="submit" value="Cadastre" />
+            <button type="button" class="btn btn-default" onclick='location.href="pesquisa"'>Voltar</button>
+            <input class="btn btn-success" type="submit" value="Pesquise" />
         </form>
     </div>
+    {%if search%}
+      <p class="alert-success">Existe sala com o número: {{search.Numero}}</p><!--Se existe está ai-->
+    {%else%}
+      <p class="alert-warning">Coloque um número ou não existe sala com este número</p><!--Se existe está ai-->
+    {%endif%}
     <br>
     <br>
-    <p class="alert-warning">Cadastre a sala</p><!--Se existe está ai-->
-    <p class="alert-warning">Pessoa precisa existir para torná-lo responsável da sala</p>
     <aside>
         <ul class="mainmenu">
             <li><a href="http://fav.unb.br/"></li><span>FAV - FAV-UnB</span></a>
@@ -45,9 +49,8 @@
 <script>
     document.getElementById("numero").focus();
     function validate(){
-      var name = document.getElementById("numero")
-      var responsavel = document.getElementById("responsavel")
-      if(name.value == "" || responsavel.value == ""){
+      var numero = document.getElementById("numero")
+      if(numero.value == ""){
         alert("Coloque algum número");
         return false;
       }

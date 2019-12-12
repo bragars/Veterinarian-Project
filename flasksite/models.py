@@ -4,9 +4,9 @@ from flasksite import db
 class Caixa(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Patrimonio = db.Column(db.String(200), nullable=False)
-    Estante_id = db.Column(db.Integer, db.ForeignKey('estante.id'), nullable=False)
+    Estante_id = db.Column(db.Integer, db.ForeignKey('estante.id'), nullable=True)
     animais = db.relationship('Animal', backref='owner', lazy=True)
-    Projeto_id = db.Column(db.Integer, db.ForeignKey('projeto.id'), nullable=False)
+    Projeto_id = db.Column(db.Integer, db.ForeignKey('projeto.id'), nullable=True)
     def __repr__(self):
         return '<Caixa %r>' % self.id
     
@@ -14,7 +14,7 @@ class Caixa(db.Model):
 class Estante(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Patrimonio = db.Column(db.String(200), nullable=False)
-    Sala_id = db.Column(db.Integer, db.ForeignKey('sala.id'), nullable=False)
+    Sala_id = db.Column(db.Integer, db.ForeignKey('sala.id'), nullable=True)
     caixas = db.relationship('Caixa', backref='owner', lazy=True)
     def __repr__(self):
         return '<Estante %r>' % self.id
@@ -22,7 +22,7 @@ class Estante(db.Model):
 
 class Sala(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    Numero = db.Column(db.Integer)
+    Numero = db.Column(db.Integer, nullable=False)
     estantes = db.relationship('Estante', backref='owner', lazy=True)    
     def __repr__(self):
         return '<Sala %r>' % self.id
@@ -51,7 +51,7 @@ class Animal(db.Model):
     sexo = db.Column(db.String(200), nullable=False)
     nascimento = db.Column(db.Integer)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
-    Caixa_id = db.Column(db.Integer, db.ForeignKey('caixa.id'), nullable=False)
+    Caixa_id = db.Column(db.Integer, db.ForeignKey('caixa.id'), nullable=True)
     def __repr__(self):
         return '<Animal %r>' % self.id
 

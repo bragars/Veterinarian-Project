@@ -5,39 +5,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 {% endblock %}
 
 {% block body %}
 <div class="content">
     <h1 style="text-align: center">LAB CIEX</h1>
-
     <h2 class="container-fluid">Cadastro - Projeto</h2>
 
     <div class="form">
         <form method="POST" action="/post_projeto">
-            <label>Nome: </label><input type="text" name="Nome" id="Nome" />
-            <label>CEUA: </label><input type="text" name="CEUA" id="CEUA" />
-            <br>
-            <label>Data_Exp_CEUA: </label><input type="text" name="Data_Exp_CEUA" id="Data_Exp_CEUA" />
-            <label>N_Animais_Aprovados: </label><input type="text" name="N_Animais_Aprovados" id="N_Animais_Aprovados" />
-            <br>
-            <label>N_Animais_Bioterio: </label><input type="text" name="N_Animais_Bioterio" id="N_Animais_Bioterio" />
-            <label>Data_Ent_Bioterio: </label><input type="text" name="Data_Ent_Bioterio" id="Data_Ent_Bioterio" />
-            <br>
-            <label>Data_Saida: </label><input type="text" name="Data_Saida" id="Data_Saida" />
-            <label>Motivo_Saida: </label><input type="text" name="Motivo_Saida" id="Motivo_Saida" />
-            <br>
-            <label>Status: </label><input type="text" name="Status" id="Status" />
-            <label>Descricao: </label><input type="text" name="Descricao" id="Descricao" />
-            <br>
-            <input type="submit" value="Cadastre" />
+
+
+          <div class="form">
+              <form onsubmit="return validate()" method="POST" action="/post_projeto">
+                  <label>Nome: </label><input type="text" name="Nome" id="Nome" />
+                  <label>CEUA: </label><input type="text" name="CEUA" id="CEUA" />
+                  <br>
+                  <label>Data_Exp_CEUA: </label><input type="text" name="Data_Exp_CEUA" id="Data_Exp_CEUA" />
+                  <label>N_Animais_Aprovados: </label><input type="text" name="N_Animais_Aprovados" id="N_Animais_Aprovados" />
+                  <br>
+                  <label>N_Animais_Bioterio: </label><input type="text" name="N_Animais_Bioterio" id="N_Animais_Bioterio" />
+                  <label>Data_Ent_Bioterio: </label><input type="text" name="Data_Ent_Bioterio" id="Data_Ent_Bioterio" />
+                  <br>
+                  <label>Data_Saida: </label><input type="text" name="Data_Saida" id="Data_Saida" />
+                  <label>Motivo_Saida: </label><input type="text" name="Motivo_Saida" id="Motivo_Saida" />
+                  <br>
+                  <label>Status: </label><input type="text" name="Status" id="Status" />
+                  <label>Descricao: </label><input type="text" name="Descricao" id="Descricao" />
+                  <br>
+                  <label>Responsável: </label><input type="text" name="responsavel" id="responsavel" />
+                  <br>
+                  <br>
+                  <button type="button" class="btn btn-default" onclick='location.href="update"'>Voltar</button>
+                  <input class="btn btn-success" type="submit" value="Cadastre" />
+              </form>
+                  </div>
+                  </form>
+              </div>
         </form>
+    <br>
+    <br>
+    <p class="alert-warning">Cadastre o projeto</p><!--Se existe está ai-->
+    <p class="alert-warning">Pessoa precisa existir para torná-lo responsável do projeto</p>
     </div>
-    <br>
-    <p style="font-size:30px">Aplicação Web para cadastro, edição, recuperação e geração de relatórios acerca da movimentação de animais de experimentação no Biotério do Laboratório CIEX-UnB</p>
-    <p style="font-size:30px">Destinado a melhoria da gestão do controle de animais, pesquisas, pesquisadores e outros colaboradores !</p>
-    <br>
     <aside>
         <ul class="mainmenu">
             <li><a href="http://fav.unb.br/"></li><span>FAV - FAV-UnB</span></a>
@@ -52,8 +64,22 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script>   
-    document.getElementById("sala").focus();
+<script>
+    document.getElementById("Nome").focus();
+    function validate(){
+      var Nome = document.getElementById("Nome")
+      var N_Animais_Aprovados = document.getElementById("N_Animais_Aprovados")
+      var Status = document.getElementById("Status")
+      var Descricao = document.getElementById("Descricao")
+      if(Nome.value == "" || N_Animais_Aprovados.value == "" ||
+         Status.value == "" || Descricao.value == ""){
+        alert("Faltam dados");
+        return false;
+      }
+      else{
+        true;
+      }
+    }
 </script>
 
 {% endblock %}

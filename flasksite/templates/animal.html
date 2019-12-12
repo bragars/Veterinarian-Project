@@ -15,21 +15,22 @@
     <h2 class="container-fluid">Cadastro - Animal</h2>
 
     <div class="form">
-        <form method="POST" action="/post_animal">
+        <form onsubmit="return validate()" method="POST" action="/post_animal">
             <label>especie: </label><input type="text" name="especie" id="especie" />
             <label>linhagem: </label><input type="text" name="linhagem" id="linhagem" />
             <label>sexo: </label><input type="text" name="sexo" id="sexo" />
             <br>
             <label>nascimento: </label><input type="text" name="nascimento" id="nascimento" />
-            <label>Número da Caixa: </label><input type="text" name="Caixa_id" id="Caixa_id" />
+            <label>Patrimonio da Caixa: </label><input type="text" name="Caixa_id" id="Caixa_id" />
             <br>
-            <input type="submit" value="Cadastre" />
+            <br>
+            <button type="button" class="btn btn-default" onclick='location.href="update"'>Voltar</button>
+            <input class="btn btn-success" type="submit" value="Cadastre" />
         </form>
-    </div>
     <br>
-    <p style="font-size:30px">Aplicação Web para cadastro, edição, recuperação e geração de relatórios acerca da movimentação de animais de experimentação no Biotério do Laboratório CIEX-UnB</p>
-    <p style="font-size:30px">Destinado a melhoria da gestão do controle de animais, pesquisas, pesquisadores e outros colaboradores !</p>
     <br>
+    <p class="alert-warning">Cadastre o animal</p><!--Se existe está ai-->
+    <p class="alert-warning">Caixa precisa existir para relacionar a caixa</p>
     <aside>
         <ul class="mainmenu">
             <li><a href="http://fav.unb.br/"></li><span>FAV - FAV-UnB</span></a>
@@ -44,8 +45,23 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script>   
-    document.getElementById("sala").focus();
+<script>
+    document.getElementById("especie").focus();
+    function validate(){
+      var especie = document.getElementById("especie")
+      var linhagem = document.getElementById("linhagem")
+      var sexo = document.getElementById("sexo")
+      var nascimento = document.getElementById("nascimento")
+
+      if(especie.value == "" || linhagem.value == "" ||
+         sexo.value == "" || nascimento.value == ""){
+        alert("Faltam dados");
+        return false;
+      }
+      else{
+        true;
+      }
+    }
 </script>
 
 {% endblock %}

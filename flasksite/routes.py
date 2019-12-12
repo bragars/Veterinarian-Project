@@ -7,24 +7,7 @@ from flasksite.models import Animal, Pessoa, Sala, Projeto, Estante, Caixa, Anim
 @app.route('/')
 def index():
     return render_template('index.html')
-'''
-@app.route("/register")
-def register():
-    form = SalaForm()
-    return render_template('register.html', title='Register', form=form)
-'''
-'''
-@app.route('/delete/<int:id>') #MVC
-def delete(id):
-    task_to_delete = Animal.query.get_or_404(id)
 
-    try:
-        db.session.delete(task_to_delete)
-        db.session.commit()
-        return redirect('/')
-    except:
-        return 'There was a problem deleting that task'
-'''
 @app.route('/update', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
@@ -61,6 +44,8 @@ def delete():
     # show the form, it wasn't submitted
     return render_template('delete.html')
 
+
+
 @app.route('/sala', methods=['GET', 'POST'])
 def sala():
     if request.method == 'POST':
@@ -76,11 +61,62 @@ def sala():
 @app.route('/post_sala', methods=['POST'])
 def post_sala():
     sala_content = request.form['numero']
+    nome_content = request.form['nome']
     sala = Sala(Numero=sala_content)
     db.session.add(sala)
     db.session.commit()
+    if nome_content:
+        pessoa = Pessoa.query.filter_by(nome=nome_content).first()
+        sala.responsaveis.append(pessoa)
+        db.session.commit()
     return redirect(url_for('cadastro'))
-    
+  
+@app.route('/pesquisa_sala', methods=['GET', 'POST'])
+def pesquisa_sala():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('pesquisa_sala.html')
+
+@app.route('/pesquisar_sala', methods=['POST'])
+def pesquisar_sala():
+    sala_content = request.form['numero']
+    if sala_content:
+        search = Sala.query.filter_by(Numero=sala_content).first()
+        if search:
+            return render_template('pesquisa_sala.html',search=search)
+            #I need VIEW, and return the variable to the template to use     
+        else:
+            return render_template('pesquisa_sala.html',search=search)
+    else:
+        return "hello"
+
+@app.route('/delete_sala', methods=['GET', 'POST'])
+def delete_sala():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('delete_sala.html')
+
+@app.route('/deletar_sala', methods=['POST'])
+def deletar_sala():
+    numero_content = request.form['numero']
+    search = Sala.query.filter_by(Numero=numero_content).first()
+    db.session.delete(search)
+    db.session.commit()
+    #I need VIEW, and return the variable to the template to use 
+    return render_template('delete_sala.html')
+
+
+
 @app.route('/pessoa', methods=['GET', 'POST'])
 def pessoa():
     if request.method == 'POST':
@@ -104,6 +140,52 @@ def post_pessoa():
     db.session.commit()
     
     return redirect(url_for('cadastro'))
+
+@app.route('/pesquisa_pessoa', methods=['GET', 'POST'])
+def pesquisa_pessoa():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('pesquisa_pessoa.html')
+
+@app.route('/pesquisar_pessoa', methods=['POST'])
+def pesquisar_pessoa():
+    nome_content = request.form['nome']
+    if nome_content:
+        search = Pessoa.query.filter_by(nome=nome_content).first()
+        if search:
+            return render_template('pesquisa_pessoa.html',search=search)
+            #I need VIEW, and return the variable to the template to use     
+        else:
+            return render_template('pesquisa_pessoa.html',search=search)
+    else:
+        return "hello"
+
+@app.route('/delete_pessoa', methods=['GET', 'POST'])
+def delete_pessoa():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('delete_pessoa.html')
+
+@app.route('/deletar_pessoa', methods=['POST'])
+def deletar_pessoa():
+    nome_content = request.form['nome']
+    search = Pessoa.query.filter_by(nome=nome_content).first()
+    db.session.delete(search)
+    db.session.commit()
+    #I need VIEW, and return the variable to the template to use 
+    return render_template('delete_sala.html')
+
+
 
 @app.route('/projeto', methods=['GET', 'POST'])
 def projeto():
@@ -130,6 +212,8 @@ def post_projeto():
     Status_content = request.form['Status']
     Descricao_content = request.form['Descricao']
     
+    responsavel_content = request.form['responsavel']
+    
     projeto = Projeto(Nome=Nome_content, CEUA=CEUA_content, Data_Exp_CEUA=Data_Exp_CEUA_content,
                       N_Animais_Aprovados=N_Animais_Aprovados_content, N_Animais_Bioterio=N_Animais_Bioterio_content, 
                       Data_Ent_Bioterio=Data_Ent_Bioterio_content,Data_Saida=Data_Saida_content, 
@@ -137,7 +221,55 @@ def post_projeto():
     db.session.add(projeto)
     db.session.commit()
     
+    pessoa = Pessoa.query.filter_by(nome=responsavel_content).first()
+    projeto.encarregados.append(pessoa)
+    db.session.commit()
+    
     return redirect(url_for('cadastro'))
+
+@app.route('/pesquisa_projeto', methods=['GET', 'POST'])
+def pesquisa_projeto():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('pesquisa_projeto.html')
+
+@app.route('/pesquisar_projeto', methods=['POST'])
+def pesquisar_projeto():
+    nome_content = request.form['nome']
+    if nome_content:
+        search = Projeto.query.filter_by(Nome=nome_content).first()
+        if search:
+            return render_template('pesquisa_projeto.html',search=search)
+            #I need VIEW, and return the variable to the template to use     
+        else:
+            return render_template('pesquisa_projeto.html',search=search)
+    else:
+        return "hello"
+
+@app.route('/delete_projeto', methods=['GET', 'POST'])
+def delete_projeto():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('delete_projeto.html')
+
+@app.route('/deletar_projeto', methods=['POST'])
+def deletar_projeto():
+    nome_content = request.form['nome']
+    search = Projeto.query.filter_by(Nome=nome_content).first()
+    db.session.delete(search)
+    db.session.commit()
+    #I need VIEW, and return the variable to the template to use 
+    return render_template('delete_projeto.html')
 
 
 @app.route('/estante', methods=['GET', 'POST'])
@@ -156,12 +288,58 @@ def estante():
 def post_estante():
     Patrimonio_content = request.form['Patrimonio']
     Sala_content = request.form['Sala_id']
+    sala = Sala.query.filter_by(Numero=Sala_content).first()
+    estante = Estante(Patrimonio=Patrimonio_content, Sala_id=sala.id)
     
-    estante = Estante(Patrimonio=Patrimonio_content, Sala_id=Sala_content)
     db.session.add(estante)
     db.session.commit()
     
     return redirect(url_for('cadastro'))
+
+@app.route('/pesquisa_estante', methods=['GET', 'POST'])
+def pesquisa_estante():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('pesquisa_estante.html')
+
+@app.route('/pesquisar_estante', methods=['POST'])
+def pesquisar_estante():
+    nome_content = request.form['nome']
+    if nome_content:
+        search = Estante.query.filter_by(Patrimonio=nome_content).first()
+        if search:
+            return render_template('pesquisa_estante.html',search=search)
+            #I need VIEW, and return the variable to the template to use     
+        else:
+            return render_template('pesquisa_estante.html',search=search)
+    else:
+        return "hello"
+
+@app.route('/delete_estante', methods=['GET', 'POST'])
+def delete_estante():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('delete_estante.html')
+
+@app.route('/deletar_estante', methods=['POST'])
+def deletar_estante():
+    patrimonio_content = request.form['nome']
+    search = Estante.query.filter_by(Patrimonio=patrimonio_content).first()
+    db.session.delete(search)
+    db.session.commit()
+    #I need VIEW, and return the variable to the template to use 
+    return render_template('delete_estante.html')
+
 
 @app.route('/caixa', methods=['GET', 'POST'])
 def caixa():
@@ -178,14 +356,63 @@ def caixa():
 @app.route('/post_caixa', methods=['POST'])
 def post_caixa():
     Patrimonio_content = request.form['Patrimonio']
-    Estante_content = request.form['Estante_id']
-    Projeto_content = request.form['Projeto_id']
     
-    caixa = Estante(Patrimonio=Patrimonio_content, Estante_id=Patrimonio_content, Projeto_id=Projeto_content)
+    Estante_content = request.form['Estante_id']
+    estante = Estante.query.filter_by(Patrimonio=Estante_content).first()
+    
+    Projeto_content = request.form['Projeto_id']
+    projeto = Projeto.query.filter_by(Nome=Projeto_content).first()
+    
+    caixa = Caixa(Patrimonio=Patrimonio_content, Estante_id=estante.id, Projeto_id=projeto.id)
     db.session.add(caixa)
     db.session.commit()
     
     return redirect(url_for('cadastro'))
+
+@app.route('/pesquisa_caixa', methods=['GET', 'POST'])
+def pesquisa_caixa():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('pesquisa_caixa.html')
+
+@app.route('/pesquisar_caixa', methods=['POST'])
+def pesquisar_caixa():
+    nome_content = request.form['nome']
+    if nome_content:
+        search = Caixa.query.filter_by(Patrimonio=nome_content).first()
+        if search:
+            return render_template('pesquisa_caixa.html',search=search)
+            #I need VIEW, and return the variable to the template to use     
+        else:
+            return render_template('pesquisa_caixa.html',search=search)
+    else:
+        return "hello"
+
+@app.route('/delete_caixa', methods=['GET', 'POST'])
+def delete_caixa():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('delete_caixa.html')
+
+@app.route('/deletar_caixa', methods=['POST'])
+def deletar_caixa():
+    patrimonio_content = request.form['nome']
+    search = Caixa.query.filter_by(Patrimonio=patrimonio_content).first()
+    db.session.delete(search)
+    db.session.commit()
+    #I need VIEW, and return the variable to the template to use 
+    return render_template('delete_caixa.html')
+
 
 @app.route('/animal', methods=['GET', 'POST'])
 def animal():
@@ -201,24 +428,65 @@ def animal():
 
 @app.route('/post_animal', methods=['POST'])
 def post_animal():
-    Patrimonio_content = request.form['Patrimonio']
     especie_content = request.form['especie']
     linhagem_content = request.form['linhagem']
     sexo_content = request.form['sexo']
     nascimento_content = request.form['nascimento']
+    #Sala_content = request.form['Sala_id']
+    #sala = Sala.query.filter_by(Numero=Sala_content).first()
+    #estante = Estante(Patrimonio=Patrimonio_content, Sala_id=sala.id)
     Caixa_content = request.form['Caixa_id']
+    caixa = Caixa.query.filter_by(Patrimonio=Caixa_content).first()
     
-    animal = Estante(Patrimonio=Patrimonio_content, Estante_id=Patrimonio_content, Projeto_id=Projeto_content)
+    animal = Animal(especie=especie_content, linhagem=linhagem_content,
+                    sexo=sexo_content, nascimento=nascimento_content,Caixa_id=caixa.id)
     db.session.add(animal)
     db.session.commit()
     
     return redirect(url_for('cadastro'))
 
-'''
-@app.route('/update/<string:animal_nome>') #MVC
-def update():
+@app.route('/pesquisa_animal', methods=['GET', 'POST'])
+def pesquisa_animal():
     if request.method == 'POST':
-        pass
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('pesquisa_animal.html')
+
+@app.route('/pesquisar_animal', methods=['POST'])
+def pesquisar_animal():
+    nome_content = request.form['nome']
+    if nome_content:
+        search = Animal.query.filter_by(especie=nome_content).first()
+        if search:
+            return render_template('pesquisa_animal.html',search=search)
+            #I need VIEW, and return the variable to the template to use     
+        else:
+            return render_template('pesquisa_animal.html',search=search)
     else:
-        return render_template('update.html')
-'''
+        return "hello"
+
+@app.route('/delete_animal', methods=['GET', 'POST'])
+def delete_animal():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('index'))
+    # show the form, it wasn't submitted
+    return render_template('delete_animal.html')
+
+@app.route('/deletar_animal', methods=['POST'])
+def deletar_animal():
+    nome_content = request.form['nome']
+    search = Animal.query.filter_by(especie=nome_content).first()
+    #search_1 = responsavel.query.filter_by(pessoa_id=nome_content).first()
+    #search_2 = encarregado.query.filter_by(projeto_id=nome_content).first()
+    db.session.delete(search)
+    db.session.commit()
+    #I need VIEW, and return the variable to the template to use 
+    return render_template('delete_animal.html')
