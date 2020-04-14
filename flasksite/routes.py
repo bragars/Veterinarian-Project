@@ -4,6 +4,16 @@ from flasksite import db
 #from flasksite.forms import SalaForm
 from flasksite.models import Animal, Pessoa, Sala, Projeto, Estante, Caixa, Animal
 
+
+# flask API
+# JSON   { "nome": "oi"}
+# test automatizados (unitarios e ponta a ponta) com pyunit pytest
+# cobertura de  codigo
+# front VueJS x React X Angular
+# laracast vue 2, youtube: academind
+# travis CI
+# devops  back end  front end designer
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -70,7 +80,7 @@ def post_sala():
         sala.responsaveis.append(pessoa)
         db.session.commit()
     return redirect(url_for('cadastro'))
-  
+
 @app.route('/pesquisa_sala', methods=['GET', 'POST'])
 def pesquisa_sala():
     if request.method == 'POST':
@@ -89,7 +99,7 @@ def pesquisar_sala():
         search = Sala.query.filter_by(Numero=sala_content).first()
         if search:
             return render_template('pesquisa_sala.html',search=search)
-            #I need VIEW, and return the variable to the template to use     
+            #I need VIEW, and return the variable to the template to use
         else:
             return render_template('pesquisa_sala.html',search=search)
     else:
@@ -112,7 +122,7 @@ def deletar_sala():
     search = Sala.query.filter_by(Numero=numero_content).first()
     db.session.delete(search)
     db.session.commit()
-    #I need VIEW, and return the variable to the template to use 
+    #I need VIEW, and return the variable to the template to use
     return render_template('delete_sala.html')
 
 
@@ -134,11 +144,11 @@ def post_pessoa():
     nome_content = request.form['nome']
     telefone_content = request.form['telefone']
     email_content = request.form['email']
-    
+
     pessoa = Pessoa(nome=nome_content, telefone=telefone_content, email=email_content)
     db.session.add(pessoa)
     db.session.commit()
-    
+
     return redirect(url_for('cadastro'))
 
 @app.route('/pesquisa_pessoa', methods=['GET', 'POST'])
@@ -159,7 +169,7 @@ def pesquisar_pessoa():
         search = Pessoa.query.filter_by(nome=nome_content).first()
         if search:
             return render_template('pesquisa_pessoa.html',search=search)
-            #I need VIEW, and return the variable to the template to use     
+            #I need VIEW, and return the variable to the template to use
         else:
             return render_template('pesquisa_pessoa.html',search=search)
     else:
@@ -182,7 +192,7 @@ def deletar_pessoa():
     search = Pessoa.query.filter_by(nome=nome_content).first()
     db.session.delete(search)
     db.session.commit()
-    #I need VIEW, and return the variable to the template to use 
+    #I need VIEW, and return the variable to the template to use
     return render_template('delete_sala.html')
 
 
@@ -211,20 +221,20 @@ def post_projeto():
     Motivo_Saida_content = request.form['Motivo_Saida']
     Status_content = request.form['Status']
     Descricao_content = request.form['Descricao']
-    
+
     responsavel_content = request.form['responsavel']
-    
+
     projeto = Projeto(Nome=Nome_content, CEUA=CEUA_content, Data_Exp_CEUA=Data_Exp_CEUA_content,
-                      N_Animais_Aprovados=N_Animais_Aprovados_content, N_Animais_Bioterio=N_Animais_Bioterio_content, 
-                      Data_Ent_Bioterio=Data_Ent_Bioterio_content,Data_Saida=Data_Saida_content, 
+                      N_Animais_Aprovados=N_Animais_Aprovados_content, N_Animais_Bioterio=N_Animais_Bioterio_content,
+                      Data_Ent_Bioterio=Data_Ent_Bioterio_content,Data_Saida=Data_Saida_content,
                       Motivo_Saida=Motivo_Saida_content, Status=Status_content,Descricao=Descricao_content)
     db.session.add(projeto)
     db.session.commit()
-    
+
     pessoa = Pessoa.query.filter_by(nome=responsavel_content).first()
     projeto.encarregados.append(pessoa)
     db.session.commit()
-    
+
     return redirect(url_for('cadastro'))
 
 @app.route('/pesquisa_projeto', methods=['GET', 'POST'])
@@ -245,7 +255,7 @@ def pesquisar_projeto():
         search = Projeto.query.filter_by(Nome=nome_content).first()
         if search:
             return render_template('pesquisa_projeto.html',search=search)
-            #I need VIEW, and return the variable to the template to use     
+            #I need VIEW, and return the variable to the template to use
         else:
             return render_template('pesquisa_projeto.html',search=search)
     else:
@@ -268,7 +278,7 @@ def deletar_projeto():
     search = Projeto.query.filter_by(Nome=nome_content).first()
     db.session.delete(search)
     db.session.commit()
-    #I need VIEW, and return the variable to the template to use 
+    #I need VIEW, and return the variable to the template to use
     return render_template('delete_projeto.html')
 
 
@@ -290,10 +300,10 @@ def post_estante():
     Sala_content = request.form['Sala_id']
     sala = Sala.query.filter_by(Numero=Sala_content).first()
     estante = Estante(Patrimonio=Patrimonio_content, Sala_id=sala.id)
-    
+
     db.session.add(estante)
     db.session.commit()
-    
+
     return redirect(url_for('cadastro'))
 
 @app.route('/pesquisa_estante', methods=['GET', 'POST'])
@@ -314,7 +324,7 @@ def pesquisar_estante():
         search = Estante.query.filter_by(Patrimonio=nome_content).first()
         if search:
             return render_template('pesquisa_estante.html',search=search)
-            #I need VIEW, and return the variable to the template to use     
+            #I need VIEW, and return the variable to the template to use
         else:
             return render_template('pesquisa_estante.html',search=search)
     else:
@@ -337,7 +347,7 @@ def deletar_estante():
     search = Estante.query.filter_by(Patrimonio=patrimonio_content).first()
     db.session.delete(search)
     db.session.commit()
-    #I need VIEW, and return the variable to the template to use 
+    #I need VIEW, and return the variable to the template to use
     return render_template('delete_estante.html')
 
 
@@ -356,17 +366,17 @@ def caixa():
 @app.route('/post_caixa', methods=['POST'])
 def post_caixa():
     Patrimonio_content = request.form['Patrimonio']
-    
+
     Estante_content = request.form['Estante_id']
     estante = Estante.query.filter_by(Patrimonio=Estante_content).first()
-    
+
     Projeto_content = request.form['Projeto_id']
     projeto = Projeto.query.filter_by(Nome=Projeto_content).first()
-    
+
     caixa = Caixa(Patrimonio=Patrimonio_content, Estante_id=estante.id, Projeto_id=projeto.id)
     db.session.add(caixa)
     db.session.commit()
-    
+
     return redirect(url_for('cadastro'))
 
 @app.route('/pesquisa_caixa', methods=['GET', 'POST'])
@@ -387,7 +397,7 @@ def pesquisar_caixa():
         search = Caixa.query.filter_by(Patrimonio=nome_content).first()
         if search:
             return render_template('pesquisa_caixa.html',search=search)
-            #I need VIEW, and return the variable to the template to use     
+            #I need VIEW, and return the variable to the template to use
         else:
             return render_template('pesquisa_caixa.html',search=search)
     else:
@@ -410,7 +420,7 @@ def deletar_caixa():
     search = Caixa.query.filter_by(Patrimonio=patrimonio_content).first()
     db.session.delete(search)
     db.session.commit()
-    #I need VIEW, and return the variable to the template to use 
+    #I need VIEW, and return the variable to the template to use
     return render_template('delete_caixa.html')
 
 
@@ -437,12 +447,12 @@ def post_animal():
     #estante = Estante(Patrimonio=Patrimonio_content, Sala_id=sala.id)
     Caixa_content = request.form['Caixa_id']
     caixa = Caixa.query.filter_by(Patrimonio=Caixa_content).first()
-    
+
     animal = Animal(especie=especie_content, linhagem=linhagem_content,
                     sexo=sexo_content, nascimento=nascimento_content,Caixa_id=caixa.id)
     db.session.add(animal)
     db.session.commit()
-    
+
     return redirect(url_for('cadastro'))
 
 @app.route('/pesquisa_animal', methods=['GET', 'POST'])
@@ -463,7 +473,7 @@ def pesquisar_animal():
         search = Animal.query.filter_by(especie=nome_content).first()
         if search:
             return render_template('pesquisa_animal.html',search=search)
-            #I need VIEW, and return the variable to the template to use     
+            #I need VIEW, and return the variable to the template to use
         else:
             return render_template('pesquisa_animal.html',search=search)
     else:
@@ -488,5 +498,5 @@ def deletar_animal():
     #search_2 = encarregado.query.filter_by(projeto_id=nome_content).first()
     db.session.delete(search)
     db.session.commit()
-    #I need VIEW, and return the variable to the template to use 
+    #I need VIEW, and return the variable to the template to use
     return render_template('delete_animal.html')
