@@ -15,4 +15,12 @@ install:
 # command to run tests
 script:
   - pytest
-
+# command to define environment variables
+env:
+  - DB=sqlite
+  - SH=bash
+  - PACKAGE_VERSION="1.0.*"
+# Default Environment Variables
+CI=true
+TRAVIS=true
+CONTINUOUS_INTEGRATION=true
